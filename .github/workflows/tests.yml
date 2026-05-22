@@ -2,9 +2,9 @@ name: Java Selenium TestNG Tests
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [ master ]
   pull_request:
-    branches: [ main, master ]
+    branches: [ master ]
   workflow_dispatch:
 
 jobs:
@@ -25,7 +25,7 @@ jobs:
       - name: Install browsers
         run: |
           sudo apt-get update
-          sudo apt-get install -y firefox
+          sudo apt-get install -y chrome-driver firefox-geckodriver
 
       - name: Run tests headlessly
         run: mvn clean test -Dheadless=true
