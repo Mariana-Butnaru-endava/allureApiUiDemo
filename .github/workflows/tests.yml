@@ -22,10 +22,28 @@ jobs:
           java-version: '17'
           cache: maven
 
-      - name: Install browsers
+      # Do not use apt packages named chrome-driver or firefox-geckodriver:
+      # those names are not available on ubuntu-latest.
+      - name: Set up Chrome and ChromeDriver
+        uses: browser-actions/setup-chrome@v2
+        with:
+          chrome-version: stable
+          install-chromedriver: true
+
+      - name: Set up Firefox
+        uses: browser-actions/setup-firefox@v1
+        with:
+          firefox-version: latest
+
+      - name: Set up GeckoDriver
+        uses: browser-actions/setup-geckodriver@v1
+
+      - name: Verify browsers and drivers
         run: |
-          sudo apt-get update
-          sudo apt-get install -y chrome-driver firefox-geckodriver
+          chrome --version || google-chrome --version
+          chromedriver --version
+          firefox --version
+          geckodriver --version
 
       - name: Run tests headlessly
         run: mvn clean test -Dheadless=true
